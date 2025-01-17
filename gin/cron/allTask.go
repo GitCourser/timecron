@@ -92,7 +92,7 @@ func HandlerAddTask(c *gin.Context) {
 	var newObj map[string]interface{}
 	json.Unmarshal([]byte(jp.data), &newObj)
 	value, _ := sjson.Set(cfg.Raw, "task.-1", newObj)
-	err = os.WriteFile("config.json", []byte(value), 0644)
+	err = os.WriteFile("data/config.json", []byte(value), 0644)
 	if err != nil {
 		r.ErrMesage(c, "添加失败,配置文件写入失败")
 		return
@@ -123,7 +123,7 @@ func HandlerDeleteTask(c *gin.Context) {
 			value, _ := sjson.Delete(cfg.Raw, fmt.Sprintf("task.%v", i))
 			println(value)
 			println(fmt.Sprintf("task.%v", i))
-			err := os.WriteFile("config.json", []byte(value), 0644)
+			err := os.WriteFile("data/config.json", []byte(value), 0644)
 			if err != nil {
 				r.ErrMesage(c, "删除失败,配置文件写入失败")
 				return
@@ -165,7 +165,7 @@ func HandlerUpdateTask(c *gin.Context) {
 		if isname.String() == name {
 			jp.Set(fmt.Sprintf("task.%v.time", i), time)
 			jp.Set(fmt.Sprintf("task.%v.isrun", i), isrun)
-			err := os.WriteFile("config.json", []byte(jp.data), 0644)
+			err := os.WriteFile("data/config.json", []byte(jp.data), 0644)
 			if err != nil {
 				r.ErrMesage(c, "修改失败,配置文件写入失败")
 				return
