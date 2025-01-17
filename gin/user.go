@@ -104,7 +104,7 @@ func (p *ApiData) HandlerUpdateUserInfo(c *gin.Context) {
 
 	jsonStr, _ := sjson.Set(cfg.Raw, "username", req.Username)
 	jsonStr, _ = sjson.Set(jsonStr, "email", req.Email)
-	err = os.WriteFile("config.json", []byte(jsonStr), 0644)
+	err = os.WriteFile("data/config.json", []byte(jsonStr), 0644)
 	if err != nil {
 		r.ErrMesage(c, "修改失败,配置文件写入失败")
 		return
@@ -141,7 +141,7 @@ func (p *ApiData) HandlerUpdatePass(c *gin.Context) {
 		return
 	}
 	jsonStr, _ := sjson.Set(cfg.Raw, "password", req.Password)
-	err = os.WriteFile("config.json", []byte(jsonStr), 0644)
+	err = os.WriteFile("data/config.json", []byte(jsonStr), 0644)
 	if err != nil {
 		r.ErrMesage(c, "修改失败,配置文件写入失败")
 		return
