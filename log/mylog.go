@@ -7,7 +7,7 @@ import (
 	"timecron/lib"
 )
 
-const logDir = "logs"
+const logDir = "data/logs"
 
 func LogInit(name string) (*log.Logger, *os.File) {
 	if name == "" { //没有名称时候,返回空日志
