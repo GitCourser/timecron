@@ -58,7 +58,7 @@ func ReadConfigFileToJson() (gjson.Result, error) {
 		str := fmt.Sprintf(`{
 			"name": "timecron",
 			"username":"admin",
-			"email":"xnkyn@qq.com",
+			"email":"admin@mail",
 			"password":"21232f297a57a5a743894a0e4a801fc3",
 			"task": [
 				{
