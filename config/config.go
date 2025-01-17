@@ -19,14 +19,14 @@ type Tconfig struct{}
 
 // 读取json配置文件转结构体
 func ReadConfigFile() (*Tconfig, error) {
-	//配置文件地址在此固定写死
-	file := "./config.json"
+	// 配置文件地址修改为在当前程序目录中的data目录下
 	runpath, err := os.Executable()
 	if err != nil {
 		fmt.Println(err)
 	}
 	dir := filepath.Dir(runpath)
-	file = path.Join(dir, file)
+	dataDir := path.Join(dir, "data")
+	file := path.Join(dataDir, "config.json")
 	fmt.Println(file, "config")
 	jsonByte, err := os.ReadFile(file)
 	if err != nil {
@@ -43,14 +43,14 @@ func ReadConfigFile() (*Tconfig, error) {
 
 // 将config文件读取到json字符串
 func ReadConfigFileToJson() (gjson.Result, error) {
-	//配置文件地址在此固定写死
-	file := "./config.json"
+	// 配置文件地址修改为在当前程序目录中的data目录下
 	runpath, err := os.Executable()
 	if err != nil {
 		log.Println(err)
 	}
 	dir := filepath.Dir(runpath)
-	file = path.Join(dir, file)
+	dataDir := path.Join(dir, "data")
+	file := path.Join(dataDir, "config.json")
 	jsonByte, err := os.ReadFile(file)
 	if err != nil {
 		fmt.Println("配置文件读取失败")
@@ -92,12 +92,21 @@ func ReadConfigFileToJson() (gjson.Result, error) {
 
 // 写入json到config文件
 func WriteConfigFile(filePth string, data []byte) error {
+	// 确保data目录存在
+	dir := filepath.Dir(filePth)
+	if _, err := os.Stat(dir); os.IsNotExist(err) {
+		err := os.MkdirAll(dir, 0755)
+		if err != nil {
+			fmt.Println("创建data目录失败")
+			return err
+		}
+	}
 	f, err := os.Create(filePth)
 	if err != nil {
 		fmt.Println("config文件创建失败")
 		return err
 	} else {
-		_, err = f.Write(data) //写入文件要字节类型[]byte(data)
+		_, err = f.Write(data) // 写入文件要字节类型[]byte(data)
 		if err != nil {
 			// 写入失败处理
 			fmt.Println("config文件写入失败")
