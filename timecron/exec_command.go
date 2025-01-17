@@ -55,8 +55,8 @@ func exec_command(s string) (string, error) {
 func taskCommand(command string, log *log.Logger) {
 	res, err := exec_command(command)
 	if err != nil {
-		log.Println(err, "命令行执行失败")
+		log.Println("\n", err, "命令行执行失败", "\n")
 		return
 	}
-	log.Println(res, "命令执行成功")
+	log.Println("\n", res, "命令执行成功", "\n")
 }
