@@ -11,14 +11,6 @@ import (
 */
 var SystemTask = []TaskInfo{
 	{
-		Name:   "每周获取一次公告",
-		Time:   "@every 20s",
-		Type:   "4",
-		Exec:   "http://baidu.com",
-		System: true,
-		Isrun:  "1",
-	},
-	{
 		Name:   "每周定时检测更新版本",
 		Time:   "",
 		Type:   "",
