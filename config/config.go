@@ -58,19 +58,8 @@ func ReadConfigFileToJson() (gjson.Result, error) {
 		str := fmt.Sprintf(`{
 			"name": "timecron",
 			"username":"admin",
-			"email":"admin@mail",
 			"password":"21232f297a57a5a743894a0e4a801fc3",
-			"task": [
-				{
-				"createtime":"%s",
-				"name": "测试任务",
-				"type": "1",
-				"exec": "pwd",
-				"isrun": "2",
-				"time": "@every 20s",
-				"desc": "30秒执行一次ls命令任务"
-			    }
-			]
+			"task": []
 		  }`, time.Unix(time.Now().Unix(), 0).Format("2006-01-02 15:04:05"))
 		err := WriteConfigFile(file, []byte(str))
 		if err != nil {
