@@ -79,7 +79,7 @@ func (p *ApiData) LoginHandle(c *gin.Context) {
 	//加密
 	str, _ := lib.EncryptByAes([]byte(req.Username))
 	//单位是秒。60*60表示60乘以60,即3600秒,也就是1小时。
-	c.SetCookie("cookie", str, 60*60, "/", "", false, false)
+	c.SetCookie("cookie", str, 60*60*24*30, "/", "", false, false)
 	/* 这里返回提示即可, 用户数据会通过接口获取 */
 	r.OkMesageData(c, "登录成功", gin.H{
 		"token":  str,
