@@ -83,7 +83,7 @@ func (p *ApiData) LoginHandle(c *gin.Context) {
 	/* 这里返回提示即可, 用户数据会通过接口获取 */
 	r.OkMesageData(c, "登录成功", gin.H{
 		"token":  str,
-		"maxAge": 1000 * 60 * 60, // 1小时
+		"maxAge": 1000 * 60 * 60 * 24 * 30,
 	})
 }
 
