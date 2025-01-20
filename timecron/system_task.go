@@ -40,10 +40,6 @@ var SystemTask = []TaskInfo{
 获取版本号
 */
 func GetVersion() {
-	data, err := request.Get("https://cron.navjs.cn/cron/version?v="+config.Version, nil)
-	if err != nil {
-		return
-	}
-
-	log.Println(string(data))
+	data := fmt.Sprintf(`{"code":200,"message":"ok","data":{"version":"%s"}}`, config.Version)
+	log.Println(data)
 }
