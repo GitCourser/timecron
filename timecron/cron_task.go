@@ -150,7 +150,7 @@ func AddRunFunc(TaskInfo TaskInfo) {
 
 func OneRunFunc(TaskInfo TaskInfo) {
 	// 根据type处理不同任务类型
-	os.Remove("logs/run-task-test.log")
+	os.Remove("data/logs/run-task-test.log")
 	log, _ := mylog.LogInit("run-task-test.log")
 	switch TaskInfo.Type {
 	case "1": //command
