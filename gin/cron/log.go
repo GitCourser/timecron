@@ -12,6 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// 定义全局变量 logDir
+const logDir = "data/logs"
+
 type FileInfo struct {
 	Name string    `json:"name"`
 	Date time.Time `json:"date"`
@@ -20,12 +23,11 @@ type FileInfo struct {
 
 /* 获取全部日志列表 */
 func HandlerAllLogList(c *gin.Context) {
-	files, _ := os.ReadDir("logs")
+	files, _ := os.ReadDir(logDir)
 
 	var fileInfos []FileInfo
 
 	for _, f := range files {
-
 		fileInfo, _ := f.Info()
 
 		fi := FileInfo{
@@ -47,7 +49,7 @@ func HandlerDeleteLog(c *gin.Context) {
 		return
 	}
 
-	//检测文件是否lgos开头,防止遍历下载
+	// 检测文件是否在 logDir 下
 	cleanPath := HasFilePath(name)
 	if cleanPath == "" {
 		r.ErrMesage(c, "文件不存在")
@@ -63,12 +65,12 @@ func HandlerDeleteLog(c *gin.Context) {
 
 /* 删除全部日志 */
 func HandlerDeleteAllLog(c *gin.Context) {
-	err := os.RemoveAll("logs")
+	err := os.RemoveAll(logDir)
 	if err != nil {
 		r.ErrMesage(c, "删除失败!")
 		return
 	}
-	os.Mkdir("logs", 0755) // 重新创建文件夹
+	os.Mkdir(logDir, 0755) // 重新创建文件夹
 	r.OkMesage(c, "删除成功")
 }
 
@@ -79,7 +81,7 @@ func HandlerGetLog(c *gin.Context) {
 		r.ErrMesage(c, "文件名为空")
 		return
 	}
-	data, err := os.ReadFile("logs/" + name)
+	data, err := os.ReadFile(filepath.Join(logDir, name))
 	if err != nil {
 		r.ErrMesage(c, name+" 读取失败!")
 		return
@@ -89,14 +91,13 @@ func HandlerGetLog(c *gin.Context) {
 
 /* 日志文件下载 */
 func HandlerDownloadFile(c *gin.Context) {
-
 	name := c.Query("name")
 	if name == "" {
 		r.ErrMesage(c, "文件名为空")
 		return
 	}
 
-	//检测文件是否lgos开头,防止遍历下载
+	// 检测文件是否在 logDir 下
 	cleanPath := HasFilePath(name)
 	if cleanPath == "" {
 		r.ErrMesage(c, "文件不存在")
@@ -157,11 +158,10 @@ func HandlerDownloadFile(c *gin.Context) {
 只允许访问logs目录下的文件,filepath参数必须为logs子路径,不能包含../向上级目录
 */
 
+/* 校验文件路径是否存在于 logDir 下 */
 func HasFilePath(name string) string {
-	finalPath := filepath.Join("logs", name)
-
-	//检测文件是否lgos开头,防止遍历下载
-	if !strings.HasPrefix(finalPath, "logs") {
+	finalPath := filepath.Join(logDir, name)
+	if !strings.HasPrefix(finalPath, logDir) {
 		return ""
 	}
 	return filepath.Clean(finalPath)
