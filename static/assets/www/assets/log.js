@@ -44,10 +44,10 @@
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Network response was not ok');
+                throw new Error('网络请求失败');
             }
             const data = await response.json();
-            displayData(data.data);
+            displayData(name, data.data);
         } catch (error) {
             alert('获取内容失败：' + error.message);
         }
@@ -55,22 +55,25 @@
 
     let popup = null;
 
-    const displayData = function(data) {
+    const displayData = function(title, data) {
         // 创建一个自定义的弹出窗口
         popup = document.createElement('div');
         popup.classList.add('popup');
         popup.innerHTML = `
+            <div class="popup-title">
+                <span>${title}</span>
+            </div>
             <div class="popup-content">
                 <pre>${data}</pre>
             </div>
-            <div class="close-button">
+            <div class="popup-close">
                 <span>&times;</span>
             </div>
         `;
         document.body.appendChild(popup);
 
         // 添加关闭按钮的事件
-        const closeButton = popup.querySelector('.close-button');
+        const closeButton = popup.querySelector('.popup-close');
         closeButton.addEventListener('click', function(event) {
             event.stopPropagation();
             closePopup();
@@ -100,7 +103,6 @@
     const style = document.createElement('style');
     style.innerHTML = `
         .popup {
-            display: flex;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -108,11 +110,21 @@
             background: rgba(0, 0, 0, 0.7);
             border: 1px solid #ccc;
             border-radius: 8px;
-            z-index: 1000;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             max-width: 80%;
             max-height: 80%;
+            display: flex;
             flex-direction: column;
+            z-index: 1000;
+        }
+        .popup-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            color: #eee;
+            font-size: 1.4em;
         }
         .popup-content {
             flex: 1;
@@ -125,16 +137,16 @@
             white-space: pre-line;
             word-wrap: break-word;
         }
-        .close-button {
+        .popup-close {
+            display: flex;
+            justify-content: center;
             align-items: center;
             border-top: 1px solid #ccc;
             color: #a00;
             cursor: pointer;
-            display: flex;
-            justify-content: center;
             font-size: 2em;
         }
-        .close-button:hover {
+        .popup-close:hover {
             color: #f00;
         }
         td[data-label="名称"] {
