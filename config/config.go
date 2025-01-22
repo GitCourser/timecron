@@ -12,7 +12,7 @@ import (
 	"github.com/tidwall/gjson"
 )
 
-var Version = "1.1.0"
+var Version = "1.1.1"
 
 // 所有结构数据
 type Tconfig struct{}
