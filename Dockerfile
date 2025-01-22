@@ -16,6 +16,7 @@ COPY --from=builder /xuanwu ./
 COPY --from=node-stage /node /usr/local/bin
 ENV TZ=Asia/Shanghai
 ENV PATH="/usr/local/bin/node:$PATH"
+RUN node -v && npm -v
 RUN npm config set registry https://registry.npmmirror.com
 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
 CMD ["./xuanwu"]
